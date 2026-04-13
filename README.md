@@ -5,6 +5,8 @@
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
+Prototype Link : [Demo Link](https://ai.studio/apps/28f22941-0952-44bf-94a0-4847186794a7)
+
 An industry-grade autonomous navigation simulation designed to showcase the **Sense-Plan-Act** cycle in robotics. This project implements a robust pathfinding engine using the **A* Search Algorithm** and provides an interactive dashboard for real-time performance monitoring.
 
 ---
