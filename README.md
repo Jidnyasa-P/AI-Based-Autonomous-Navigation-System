@@ -116,7 +116,7 @@ This project demonstrates proficiency in:
 ## 👤 Author
 
 **Jidnyasa Patil**
-- GitHub: [@jidnyasapatil019](https://github.com/Jidnyasa-P)
+- GitHub: [@Jidnyasa-P](https://github.com/Jidnyasa-P)
 - LinkedIn: [Your Profile](https://www.linkedin.com/in/jidnyasa-patil-02a668344)
 
 ---
