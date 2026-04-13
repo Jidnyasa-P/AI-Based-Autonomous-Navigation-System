@@ -1,0 +1,6 @@
+{
+  "name": "AI-Based Autonomous Navigation System",
+  "description": "A comprehensive industry-oriented simulation project for autonomous robot navigation using Python, OpenCV, and A* path planning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

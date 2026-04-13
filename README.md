@@ -1,11 +1,20 @@
-<div align="center">
+# AI-Based Autonomous Navigation System
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+This project implements a virtual simulation of an autonomous navigation system. It includes modules for perception (obstacle detection), path planning (A* algorithm), and navigation control.
 
-  <h1>Built with AI Studio</h2>
+## Project Overview
+- **Perception**: Uses simulated sensors to detect obstacles in the environment.
+- **Path Planning**: Implements the A* algorithm to find the most efficient path to a target.
+- **Navigation**: Controls the agent to follow the planned path while avoiding dynamic obstacles.
+- **Simulation**: A custom Pygame-based environment for visualization and testing.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Tech Stack
+- Python 3.10+
+- Pygame (Simulation Engine)
+- OpenCV (Image Processing/Perception)
+- NumPy (Mathematical Operations)
+- Matplotlib (Data Visualization)
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+## Getting Started
+1. Install dependencies: `pip install -r requirements.txt`
+2. Run the simulation: `python main.py`
