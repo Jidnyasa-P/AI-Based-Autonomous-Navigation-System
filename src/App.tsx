@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { NavigationSim } from './components/NavigationSim';
 import { AnalyticsDashboard } from './components/AnalyticsDashboard';
+import { ArchitectureView } from './components/ArchitectureView';
+import { DocumentationView } from './components/DocumentationView';
 import { 
   Bot, 
   Settings, 
@@ -12,9 +14,12 @@ import {
   Zap,
   Target
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
+
+type Tab = 'simulation' | 'architecture' | 'documentation';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState<Tab>('simulation');
   const [metrics, setMetrics] = useState({
     pathLength: 0,
     computeTime: '0.00',
@@ -38,10 +43,25 @@ export default function App() {
           </div>
           
           <div className="hidden md:flex items-center gap-6">
-            <nav className="flex items-center gap-4 text-sm font-medium text-slate-600">
-              <a href="#" className="text-blue-600">Simulation</a>
-              <a href="#" className="hover:text-slate-900">Architecture</a>
-              <a href="#" className="hover:text-slate-900">Documentation</a>
+            <nav className="flex items-center gap-4 text-sm font-medium">
+              <button 
+                onClick={() => setActiveTab('simulation')}
+                className={`transition-colors ${activeTab === 'simulation' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'}`}
+              >
+                Simulation
+              </button>
+              <button 
+                onClick={() => setActiveTab('architecture')}
+                className={`transition-colors ${activeTab === 'architecture' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'}`}
+              >
+                Architecture
+              </button>
+              <button 
+                onClick={() => setActiveTab('documentation')}
+                className={`transition-colors ${activeTab === 'documentation' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'}`}
+              >
+                Documentation
+              </button>
             </nav>
             <div className="h-6 w-px bg-slate-200" />
             <div className="flex items-center gap-3">
@@ -54,7 +74,7 @@ export default function App() {
                 className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-all shadow-sm"
               >
                 <Github className="w-4 h-4" />
-                GitHub Proof
+                GitHub 
               </a>
             </div>
           </div>
@@ -62,71 +82,92 @@ export default function App() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* Left Column: Simulation & Analytics */}
-          <div className="lg:col-span-8 space-y-8">
+        <AnimatePresence mode="wait">
+          {activeTab === 'simulation' && (
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              key="simulation"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8"
             >
-              <NavigationSim onMetricsUpdate={setMetrics} />
-            </motion.div>
+              {/* Left Column: Simulation & Analytics */}
+              <div className="lg:col-span-8 space-y-8">
+                <NavigationSim onMetricsUpdate={setMetrics} />
+                <AnalyticsDashboard metrics={metrics} />
+              </div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              {/* Right Column: Project Info & Guide */}
+              <div className="lg:col-span-4 space-y-6">
+                <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Info className="w-5 h-5 text-blue-500" />
+                    <h2 className="font-bold text-slate-800">Project Overview</h2>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                    This industry-grade simulation demonstrates autonomous robot navigation using the 
+                    <span className="font-semibold text-slate-900"> A* Search Algorithm</span>. 
+                    It mimics real-world warehouse automation and smart mobility logic.
+                  </p>
+                  <div className="space-y-3">
+                    <FeatureItem icon={<ShieldCheck className="text-green-500" />} text="Dynamic Obstacle Avoidance" />
+                    <FeatureItem icon={<Zap className="text-amber-500" />} text="Real-time Path Optimization" />
+                    <FeatureItem icon={<Target className="text-red-500" />} text="Precision Goal Targeting" />
+                  </div>
+                </section>
+
+                <section className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-lg shadow-blue-200">
+                  <h3 className="font-bold text-lg mb-2">Student Portfolio Guide</h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Recruiters look for "Proof of Work". Use this simulation to showcase your skills in 
+                    Algorithms, Robotics, and Frontend Engineering.
+                  </p>
+                  <button className="w-full bg-white text-blue-700 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors">
+                    View GitHub Strategy
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </section>
+
+                <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                  <h3 className="font-bold text-slate-800 mb-4">Tech Stack</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge text="TypeScript" color="blue" />
+                    <Badge text="React 19" color="indigo" />
+                    <Badge text="Tailwind CSS" color="cyan" />
+                    <Badge text="Recharts" color="purple" />
+                    <Badge text="A* Algorithm" color="orange" />
+                    <Badge text="Canvas API" color="pink" />
+                  </div>
+                </section>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'architecture' && (
+            <motion.div
+              key="architecture"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
             >
-              <AnalyticsDashboard metrics={metrics} />
+              <ArchitectureView />
             </motion.div>
-          </div>
+          )}
 
-          {/* Right Column: Project Info & Guide */}
-          <div className="lg:col-span-4 space-y-6">
-            <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <Info className="w-5 h-5 text-blue-500" />
-                <h2 className="font-bold text-slate-800">Project Overview</h2>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                This industry-grade simulation demonstrates autonomous robot navigation using the 
-                <span className="font-semibold text-slate-900"> A* Search Algorithm</span>. 
-                It mimics real-world warehouse automation and smart mobility logic.
-              </p>
-              <div className="space-y-3">
-                <FeatureItem icon={<ShieldCheck className="text-green-500" />} text="Dynamic Obstacle Avoidance" />
-                <FeatureItem icon={<Zap className="text-amber-500" />} text="Real-time Path Optimization" />
-                <FeatureItem icon={<Target className="text-red-500" />} text="Precision Goal Targeting" />
-              </div>
-            </section>
-
-            <section className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-lg shadow-blue-200">
-              <h3 className="font-bold text-lg mb-2">Student Portfolio Guide</h3>
-              <p className="text-blue-100 text-sm mb-4">
-                Recruiters look for "Proof of Work". Use this simulation to showcase your skills in 
-                Algorithms, Robotics, and Frontend Engineering.
-              </p>
-              <button className="w-full bg-white text-blue-700 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors">
-                View GitHub Strategy
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </section>
-
-            <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <h3 className="font-bold text-slate-800 mb-4">Tech Stack</h3>
-              <div className="flex flex-wrap gap-2">
-                <Badge text="TypeScript" color="blue" />
-                <Badge text="React 19" color="indigo" />
-                <Badge text="Tailwind CSS" color="cyan" />
-                <Badge text="Recharts" color="purple" />
-                <Badge text="A* Algorithm" color="orange" />
-                <Badge text="Canvas API" color="pink" />
-              </div>
-            </section>
-          </div>
-        </div>
+          {activeTab === 'documentation' && (
+            <motion.div
+              key="documentation"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <DocumentationView />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
@@ -170,4 +211,5 @@ function Badge({ text, color }: { text: string; color: string }) {
     </span>
   );
 }
+
 
